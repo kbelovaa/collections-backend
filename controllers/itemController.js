@@ -1,4 +1,4 @@
-const { Item, Tag, ItemTag, Collection, User } = require('../models/models');
+const { Item, Tag, ItemTag, Collection, User, Like, Comment } = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class ItemController {
@@ -58,6 +58,8 @@ class ItemController {
 
   async delete(req, res) {
     const { id } = req.params;
+    const result1 = await Comment.destroy({ where: { itemId: id } });
+    const result2 = await Like.destroy({ where: { itemId: id } });
     const result = await Item.destroy({ where: { id } });
     return res.status(200).json(result);
   }
